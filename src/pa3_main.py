@@ -176,7 +176,7 @@ if __name__ == "__main__":
             username, args.pid)
     task_imls = importlib.import_module(args.module_name)
     pa3 = PA3Executor(args, task_imls, task_imls.INPUT_FORMAT, args.synonmys)
-    results, timings = pa2.eval()
+    results, timings = pa3.eval()
     res = []
     for task_name, result, timing in zip(TASK_NAMES, results, timings):
         res.append({'task_name': task_name,
