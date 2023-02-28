@@ -5,13 +5,13 @@ import importlib
 import os
 import getpass
 from utilities import spark_init
-from utilities import PA2Test
-from utilities import PA2Data
+from utilities import PA3Test
+from utilities import PA3Data
 from utilities import TASK_NAMES
 from utilities import data_cat
 import databricks.koalas as ks
 
-class PA2Executor(object):
+class PA3Executor(object):
     def __init__(
         self,
         args,
@@ -33,12 +33,12 @@ class PA2Executor(object):
             }
 
         self.task_imls = task_imls
-        self.tests = PA2Test(self.spark, args.test_results_root)
+        self.tests = PA3Test(self.spark, args.test_results_root)
         if output_pid_folder:
             output_root = os.path.join(args.output_root, args.pid)
         else:
             output_root = args.output_root
-        self.data_io = PA2Data(self.spark, path_dict, output_root, 
+        self.data_io = PA3Data(self.spark, path_dict, output_root, 
                                deploy=True, input_format=input_format)
 
         self.data_dict, self.count_dict = self.data_io.load_all(
@@ -157,7 +157,7 @@ def get_main_parser():
     )
     parser.add_argument(
         '--module_name', type=str,
-        default='assignment2'
+        default='assignment3'
     )
     parser.add_argument(
         '--output_root', type=str,
@@ -172,13 +172,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     username = getpass.getuser()
     if not args.output_root:
-        args.output_root = '/home/{}/{}-pa2/test_results'.format(
+        args.output_root = '/home/{}/{}-pa3/test_results'.format(
             username, args.pid)
     task_imls = importlib.import_module(args.module_name)
-    pa2 = PA2Executor(args, task_imls, task_imls.INPUT_FORMAT, args.synonmys)
+    pa3 = PA3Executor(args, task_imls, task_imls.INPUT_FORMAT, args.synonmys)
     results, timings = pa2.eval()
     res = []
     for task_name, result, timing in zip(TASK_NAMES, results, timings):
         res.append({'task_name': task_name,
                    'passed': result, 'time_sec': timing})
-    pa2.data_io.save(res, 'summary')
+    pa3.data_io.save(res, 'summary')

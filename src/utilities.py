@@ -67,7 +67,7 @@ def test_deco(f):
     return f_new
 
 
-class PA2Test(object):
+class PA3Test(object):
     def __init__(self, spark, test_results_root):
         self.spark = spark
         self.test_results_root = test_results_root
@@ -247,7 +247,7 @@ def spark_init(pid):
     return SQLContext(spark)
 
 
-class PA2Data(object):
+class PA3Data(object):
     review_schema = T.StructType([
         T.StructField('reviewerID', T.StringType(), False),
         T.StructField('asin', T.StringType(), False),
